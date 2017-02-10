@@ -4,6 +4,8 @@ public class TweetTraduzido {
 	private String pt;
 	private String enGoogle;
 	private String enYandex;
+	private String classifiedGoogle;
+	private String classifiedYandex;
 	
 	public String getPt() {
 		return pt;
@@ -22,6 +24,18 @@ public class TweetTraduzido {
 	}
 	public void setEnYandex(String enYandex) {
 		this.enYandex = enYandex;
+	}
+	public String getClassifiedGoogle() {
+		return classifiedGoogle;
+	}
+	public void setClassifiedGoogle(String classifiedGoogle) {
+		this.classifiedGoogle = classifiedGoogle;
+	}
+	public String getClassifiedYandex() {
+		return classifiedYandex;
+	}
+	public void setClassifiedYandex(String classifiedYandex) {
+		this.classifiedYandex = classifiedYandex;
 	}
 	
 }

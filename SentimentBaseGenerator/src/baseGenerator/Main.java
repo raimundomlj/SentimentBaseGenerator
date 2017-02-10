@@ -50,11 +50,10 @@ public class Main {
 
 		//ArrayList<String> tweets = getTweets(busca, lang);
 
-		ImprimeArquivo print = new ImprimeArquivo("correios_all",
-				translateYandexFromFile("C:/Users/raimundo.martins/Desktop/correios.csv"));
+		// ImprimeArquivo print = new ImprimeArquivo("correios_all",translateYandexFromFile("C:/Users/raimundo.martins/Desktop/correios.csv"));
 		// ImprimeArquivo print = new ImprimeArquivo("correios",
 		// translateGoogle(tweets));
-		print.start();
+		// print.start();
 	}
 
 	public static ArrayList<TweetTraduzido> translateYandexFromFile(String file) throws IOException {
