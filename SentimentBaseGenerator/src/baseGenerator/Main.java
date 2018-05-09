@@ -1,7 +1,9 @@
 package baseGenerator;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
@@ -50,10 +52,44 @@ public class Main {
 
 		//ArrayList<String> tweets = getTweets(busca, lang);
 
-		// ImprimeArquivo print = new ImprimeArquivo("correios_all",translateYandexFromFile("C:/Users/raimundo.martins/Desktop/correios.csv"));
+		//ImprimeArquivo print = new ImprimeArquivo("miningb_all",translateYandexFromFile("C:/Users/Raimundo/Desktop/2000-tweets-br.csv"));
+		
 		// ImprimeArquivo print = new ImprimeArquivo("correios",
 		// translateGoogle(tweets));
 		// print.start();
+		
+		//translateFromFile("C:/Users/Raimundo/Desktop/modelo funcionando/positive_database_beauty_1.txt");
+		translateFromFile("C:/Users/Raimundo/Desktop/modelo funcionando/negative_database_beauty_1.txt");
+	}
+	
+	public static void translateFromFile(String file) throws IOException {
+		//String keyYandex = "trnsl.1.1.20170210T155503Z.a81b1d1be6f81de0.4fcc199cd762a88393b073dec8c444cbb8348d7c";
+		String keyYandex = "trnsl.1.1.20180322T221010Z.7debd3718deb942c.6f92c317f8e1c332d24a9285f6a49433701955b9";		
+
+		Client client = Client.create();
+		WebResource webResource = client.resource("https://translate.yandex.net/api/v1.5/tr.json/translate?lang=en-pt&key=" + keyYandex);
+		
+		BufferedReader br = new BufferedReader(new FileReader(file));
+		String line = "";
+		String texto = "";		
+		String output = "";	
+		FileWriter arquivo = new FileWriter(new File("C:/Users/Raimundo/Desktop/modelo funcionando/beauty_negative_pt.txt"));
+		try {
+			while ((line = br.readLine()) != null) {	
+				ClientResponse response = webResource.queryParam("text", line).queryParam("format", "plain").accept("text/plain").get(ClientResponse.class);
+				output = response.getEntity(String.class);
+				JSONObject jsonObj = new JSONObject(output);
+				texto = jsonObj.get("text").toString();
+				System.out.println(texto);
+				arquivo.write(texto+"\n");
+			}
+		}catch(Exception ex) {
+			arquivo.flush();
+			arquivo.close();
+			ex.printStackTrace();
+		}
+		br.close();
+		arquivo.close();
 	}
 
 	public static ArrayList<TweetTraduzido> translateYandexFromFile(String file) throws IOException {
@@ -70,7 +106,7 @@ public class Main {
 		String line = "";
 		String cvsSplitBy = ";";
 		String output = "";
-		
+		int count = 1;
 		while ((line = br.readLine()) != null) {			
 			String[] text = line.split(cvsSplitBy);
 			
@@ -90,6 +126,8 @@ public class Main {
 			tt.setEnYandex(jsonObj.get("text").toString());
 			
 			tweetsTraduzidos.add(tt);
+			System.out.println("Traduzido: "+count);
+			count++;
 		}
 		br.close();
 
